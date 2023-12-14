@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Dictionary | by Muhammadqodir</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,500;1,400&display=swap"
+            rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            button {
+                border: 2px solid #92a458;
+                cursor: pointer;
+                padding: 5px 20px;
+                border-radius: 7px;
+                font-size: 20px;
+                background-color: rgba(255, 255, 225, 0.3);
+                color: white;
+            }
+
+            button:hover {
+                background-color: rgba(255, 255, 225, 0.6);
+
+            }
+
+            body {
+                text-align: center;
+                background: url("./img/bg2.jpg") no-repeat;
+                background-size: cover;
+                color: white;
+                font-family: 'Rethink Sans', sans-serif;
+            }
+
+            .container {
+                margin: 20px;
+                padding: 20px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+            }
+
+            .inputs {
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #english,
+            #uzbek {
+                padding: 7px 10px;
+                border-radius: 10px;
+                border: none;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            h2 {
+                color: #b9ec13;
+            }
+
+            p {
+                margin-top: 5px;
+                font-size: 20px;
+            }
+
+            span>button {
+                padding: 5px 10px;
+            }
+
+            .wordLists {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .unMemorizedWords,
+            .memorizedWords,
+            form {
+                padding: 20px;
+                margin: 20px;
+                border-radius: 10px;
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+
+            .unMemorizedWords {
+                width: 40%;
+                max-height: 600px;
+                overflow-y: scroll;
+                margin: 20px;
+                padding: 20px;
+                border-radius: 10px;
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+
+            .memorizedWords {
+                width: 40%;
+                max-height: 600px;
+                overflow-y: scroll;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>English -Uzbek Dictionary</h1>
+            <form>
+                <div class="inputs">
+                    <div>
+                        <h2>English</h2>
+                        <input type="text" name="english" id="english">
+                    </div>
+                    <div>
+                        <h2>Uzbek</h2>
+                        <input type="text" name="uzbek" id="uzbek">
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="wordLists">
+                <div class="unMemorizedWords">
+                    <h1>Unmemorized words</h1>
+                    <h2>English - Uzbek</h2>
+                </div>
+                <div class="memorizedWords">
+                    <h1>Memorized Words</h1>
+                    <h2>English - Uzbek</h2>
+                </div>
+            </div>
+            <script>
+                const selectEl = (el) => document.querySelector(el);
+                const formEl = selectEl("form");
+                const inputEnglish = selectEl("#english");
+                const inputUzbek = selectEl("#uzbek");
+                const unMemorizedWords = selectEl(".unMemorizedWords");
+                const memorizedWords = selectEl(".memorizedWords");
+                const wordlists = {
+                    unMemorizedWords: [],
+                    memorizedWords: [],
+                };
+                const setUnmemorizedWord = (wordEng, wordUzb) => {
+                    if (
+                        !wordlists.unMemorizedWords.includes(wordEng) &&
+                        !wordlists.memorizedWords.includes(wordEng)
+                    ) {
+                        wordlists.unMemorizedWords.push(wordEng);
+                        const pEl = document.createElement("p");
+                        pEl.className = "wordContainer";
+                        pEl.innerHTML = `
+      <span class="wordEng">${wordEng}</span>
+      <span> - </span>
+      <span class="wordUzb">${wordUzb}</span>
+      <button class="removeBtn">-</button>
+      <button class="addBtn">+</button>
+    `;
+                        unMemorizedWords.append(pEl);
+                        // Yangi "addBtn" va "removeBtn" tugmalarni qo'shamiz
+                        const removeBtn = pEl.querySelector('.removeBtn');
+                        const addBtn = pEl.querySelector('.addBtn');
+                        removeBtn.addEventListener("click", function () {
+                            pEl.remove();
+                        });
+                        addBtn.addEventListener("click", function () {
+                            memorizedWords.append(pEl);
+                        });
+                    }
+                };
+                formEl.addEventListener("submit", (event) => {
+                    event.preventDefault();
+
+                    if (inputEnglish.value && inputUzbek.value) {
+                        setUnmemorizedWord(inputEnglish.value, inputUzbek.value);
+                        inputEnglish.value = "";
+                        inputUzbek.value = "";
+                    }
+                });
+            </script>
+        </div>
+    </body>
+
+</html>
